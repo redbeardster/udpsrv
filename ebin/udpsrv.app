@@ -5,4 +5,4 @@
               {applications,[kernel,stdlib]},
               {mod,{udpsrv_app,[]}},
               {env,[]},
-              {modules,[udpsrv,udpsrv_app,udpsrv_sup]}]}.
+              {modules,[udpsend,udpsrv,udpsrv_app,udpsrv_sup]}]}.

@@ -24,5 +24,13 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-    {ok, { {one_for_one, 5, 10}, []} }.
-
+RestartStrategy = one_for_one,
+    MaxRestarts = 1, % one restart every
+    MaxSecondsBetweenRestarts = 5, % five seconds
+    SupFlags = {RestartStrategy, MaxRestarts, MaxSecondsBetweenRestarts},
+    Restart = permanent, % or temporary, or transient
+    Shutdown = 2000, % milliseconds, could be infinity or brutal_kill
+    Type = worker, % could also be supervisor
+    Drop = {udpsrv, {udpsrv, start_link, []},
+        Restart, Shutdown, Type, [udpsrv]},
+    {ok, {SupFlags, [Drop]}}.
