@@ -1,7 +1,7 @@
 -module(udpsend).
 -export([start/0]).
 -define (Addr, {224,0,0,251}).
--define (Myaddr, {10,10,174,118}).
+%-define (Myaddr, {10,10,174,118}).
 -define (IAddr, {0,0,0,0}).
 -define (Port, 5000).
 
