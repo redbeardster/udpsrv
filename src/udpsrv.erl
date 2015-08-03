@@ -8,7 +8,6 @@
          terminate/2, code_change/3]).
 
 -record(state, {socket}).
-
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
@@ -16,8 +15,10 @@ init([]) ->
 %    {ok, #state{}}.
 
     Port = 5000,
-    {ok, Socket} = gen_udp:open(Port,[{reuseaddr,true}, {ip,?Addr}, {multicast_ttl,4}, {multicast_loop,false}, binary]),
+    {ok, Socket} = gen_udp:open(Port,[{reuseaddr,true}, {ip,?Addr}, {multicast_ttl,4}, {multicast_loop,true}, binary]),
     inet:setopts(Socket,[{add_membership,{{?Addr,{0,0,0,0}}}}]),
+
+    gen_udp:send(Socket,?Addr,5000,erlang:atom_to_list(node())),
     error_logger:info_msg("Listen in port ~p~n", [Port]),
 
     net_kernel:monitor_nodes(true, []),
